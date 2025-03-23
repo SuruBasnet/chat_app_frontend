@@ -64,7 +64,7 @@ export  default  function Home() {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <Card className="w-150 h-150">
+      <Card className="w-150 h-150 max-w-[100%] max-h-[100%]">
       <CardHeader className="sticky top-0 bg-white">
         <div id='card-head' className="flex justify-between">
           <div id='head-title'>
@@ -87,7 +87,7 @@ export  default  function Home() {
             {/* User Message */}
             <div
               id="chat-bubble-left"
-              className="flex w-max max-w-[100%%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-primary mb-5 text-primary-foreground"
+              className="flex w-max max-w-[100%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-primary mb-5 text-primary-foreground"
             >
               {message}
             </div>
