@@ -75,7 +75,7 @@ export  default  function Home() {
           <LogoutForm/>
         </div>
       </CardHeader>
-      <CardContent className="flex-1 overflow-y-auto p-4 space-y-4">
+      <CardContent className="flex-1 overflow-y-auto overflow-x-auto p-4 space-y-4">
         {error && (
           <div className="flex items-center p-3 text-red-700 bg-red-100 border border-red-400 rounded-md">
             <AlertCircle className="mr-2 h-5 w-5" />
