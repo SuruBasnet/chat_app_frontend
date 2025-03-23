@@ -23,7 +23,7 @@ export default function RegisterForm() {
     const formData = new FormData(event.currentTarget);
 
     try {
-      const response = await fetch("https://surutest.pythonanywhere.com/api/v1/register/", {
+      const response = await fetch("https://chatappbackend-production-859a.up.railway.app/api/v1/register/", {
         method: "POST",
         body: formData,
       });

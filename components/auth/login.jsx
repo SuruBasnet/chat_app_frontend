@@ -23,7 +23,7 @@ export default function LoginForm() {
     const formData = new FormData(event.currentTarget);
 
     try {
-      const response = await fetch("https://surutest.pythonanywhere.com/api/v1/login/", {
+      const response = await fetch("https://chatappbackend-production-859a.up.railway.app/api/v1/login/", {
         method: "POST",
         body: formData,
       });

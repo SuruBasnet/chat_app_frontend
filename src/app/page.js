@@ -38,7 +38,7 @@ export  default  function Home() {
     const token = Cookies.get("token"); // Get token from cookies
 
     try {
-      const response = await fetch("https://surutest.pythonanywhere.com/api/v1/ai-chat/", {
+      const response = await fetch("https://chatappbackend-production-859a.up.railway.app/api/v1/ai-chat/", {
         method: "POST",
         body: formData,
         headers: {
