@@ -31,7 +31,7 @@ export default function Auth() {
             <CardHeader>
                 <CardTitle>Login</CardTitle>
                 <CardDescription>
-                Register if you don't have a account
+                Register if you dont have a account
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
