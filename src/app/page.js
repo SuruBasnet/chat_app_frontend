@@ -87,7 +87,7 @@ export  default  function Home() {
             {/* User Message */}
             <div
               id="chat-bubble-left"
-              className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-primary mb-5 text-primary-foreground"
+              className="flex w-max max-w-[100%%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-primary mb-5 text-primary-foreground"
             >
               {message}
             </div>
@@ -96,7 +96,7 @@ export  default  function Home() {
             {aiMessages[index] ? (
               <div
                 id="chat-bubble-right"
-                className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm bg-muted"
+                className="flex w-max max-w-[100%] flex-col gap-2 rounded-lg px-3 py-2 text-sm bg-muted"
               >
                 {aiMessages[index]}
               </div>
