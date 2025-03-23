@@ -1,103 +1,134 @@
+"use client"
+
 import Image from "next/image";
+import { SendHorizontal } from 'lucide-react';
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import React from "react";
+import LogoutForm from "../../components/auth/logout";
+import Cookies from "js-cookie";
 
-export default function Home() {
+export  default  function Home() {
+  const [userMessages,setUserMessages] = React.useState([])
+  const [inputMessage, setInputMessage] = React.useState("");
+  const [aiMessages,setAiMessage] = React.useState([])
+  const [error,setError] = React.useState(null)
+
+  async function handleUserMessage(e) {
+    e.preventDefault(); // Prevent form refresh
+  
+    if (inputMessage.trim() === "") return; // Ignore empty messages
+  
+    // Add user message to state
+    setUserMessages((prevMessages) => [...prevMessages, inputMessage]);
+    setInputMessage(""); // Clear input field
+  
+    const formData = new FormData();
+    formData.append("message", inputMessage); // Ensure correct field name
+  
+    const token = Cookies.get("token"); // Get token from cookies
+
+    try {
+      const response = await fetch("https://surutest.pythonanywhere.com/api/v1/ai-chat/", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Token ${token}`, // Attach token here
+        },
+      });
+  
+      const data = await response.json();
+  
+      if (response.status === 200) {
+        // Add AI response to state
+        const response_data = data['candidates'][0]['content']['parts'][0]['text'];
+        console.log(response_data)
+        setAiMessage((prevMessages) => [...prevMessages, response_data || "I'm here to help!"]);
+      } else {
+        setError("Failed to fetch AI response.");
+      }
+    } catch (error) {
+      setError("Network error. Please try again.");
+    }
+  }
+  
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="flex justify-center items-center min-h-screen">
+      <Card className="w-150 h-150">
+      <CardHeader className="sticky top-0 bg-white">
+        <div id='card-head' className="flex justify-between">
+          <div id='head-title'>
+            <CardTitle>Chat app</CardTitle>
+            <CardDescription>Talk with our latest ai model.</CardDescription>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
+          <LogoutForm/>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </CardHeader>
+      <CardContent className="flex-1 overflow-y-auto p-4 space-y-4">
+        {error && (
+          <div className="flex items-center p-3 text-red-700 bg-red-100 border border-red-400 rounded-md">
+            <AlertCircle className="mr-2 h-5 w-5" />
+            <span>{error}</span>
+          </div>
+        )}
+        {userMessages.map((message, index) => (
+          <div key={index}>
+            {/* User Message */}
+            <div
+              id="chat-bubble-left"
+              className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-primary mb-5 text-primary-foreground"
+            >
+              {message}
+            </div>
+
+            {/* AI Message (If available) */}
+            {aiMessages[index] ? (
+              <div
+                id="chat-bubble-right"
+                className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm bg-muted"
+              >
+                {aiMessages[index]}
+              </div>
+            ) : (
+              <div className="text-gray-400 text-sm mt-2">Typing...</div> // Loading indicator if AI hasn't responded yet
+            )}
+          </div>
+        ))}
+      </CardContent>
+      <CardFooter className="sticky bottom-0">
+      <form onSubmit={handleUserMessage} className="flex justify-between space-x-3 w-full">
+        { userMessages.length == aiMessages.length || userMessages.length == 0 ? <Input
+          type="text"
+          className="py-4 flex-1"
+          placeholder="Enter your message here..."
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          name="message"
+          required
+        /> : <Input
+        type="text"
+        className="py-4 flex-1"
+        placeholder="Please wait..."
+        disabled
+      />}
+        <Button size="icon" type="submit">
+          <SendHorizontal />
+        </Button>
+      </form>
+      </CardFooter>
+    </Card>
     </div>
+    
   );
 }
+
